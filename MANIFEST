@@ -1,0 +1,13 @@
+MANIFEST			This list of files
+Makefile.PL
+PXR.pm
+PXR/NS.pm
+PXR/Node.pm
+PXR/Parser.pm
+PXR/Utils.pm
+lib/PXR.pm
+lib/PXR/NS.pm
+lib/PXR/Node.pm
+lib/PXR/Parser.pm
+lib/PXR/Utils.pm
+test.pl

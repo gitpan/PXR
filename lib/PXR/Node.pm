@@ -3,8 +3,6 @@ package PXR::Node;
 use warnings;
 use strict;
 
-our $VERSION = '0.1';
-
 use constant tagname => 0;
 use constant attrs => 1;
 use constant tagdata => 2;
@@ -275,17 +273,18 @@ sub get_tag() {
 				push(@$return, $kid) if $kid->attr('xmlns') eq $ns;
 			}
 
-			return wantarray ? $return : $return->[0];
+			return wantarray ? @$return : $return->[0];
 			
 		} else {
 
-			return wantarray ? \@{$self->[+kids]->{$tagname}} :
+			return wantarray ? @{$self->[+kids]->{$tagname}} :
 				@{$self->[+kids]->{$tagname}}[0];
 		}
 		
 	} else {
-
-		return $self->[+kids]->{$tagname};
+		
+		return wantarray ? @{[$self->[+kids]->{$tagname}]} :
+			$self->[+kids]->{$tagname};
 	}
 
 }

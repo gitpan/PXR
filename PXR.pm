@@ -2,6 +2,6 @@
 
 package PXR;
 
-our $VERSION = '0.1';
+our $VERSION = '0.1.3';
 
 1;
