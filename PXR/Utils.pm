@@ -12,7 +12,7 @@ use PXR::NS qw/ :IQ /;
 
 require Exporter;
 
-our $VERSION = '0.1';
+our $VERSION = '0.1.1';
 our @ISA = qw/ Exporter /;
 our @EXPORT = qw/ &get_config &get_reply &get_error &get_user &get_host /;
 
@@ -73,7 +73,7 @@ sub get_reply()
 		$blank->insert_tag('query', $xmlns);
 		$blank->attr('to' => $from);
 		$blank->attr('from' => $to);
-		$blank->attr('type' => IQ_RESULT());
+		$blank->attr('type' => +IQ_RESULT);
 		$blank->attr('id' => $attribs->{'id'}) if exists($attribs->{'id'});
 		
 		$node->free();
@@ -84,7 +84,7 @@ sub get_reply()
 
 		$node->attr('to' => $from);
 		$node->attr('from' => $to);
-		$node->attr('type' => 'result');
+		$node->attr('type' => +IQ_RESULT);
 
 		return $node;
 	}
@@ -98,7 +98,7 @@ sub get_error()
 
 	$node->attr('to' => $from);
 	$node->attr('from' => $hash->{'router'}->{'hostname'});
-	$node->attr('type' => IQ_ERROR);
+	$node->attr('type' => +IQ_ERROR);
 
 	my $err = $node->insert_tag('error');
 	$err->attr('code' => $code);
@@ -123,3 +123,39 @@ sub get_host()
 }
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+PXR::Utils - General purpose utilities for PXR Tools
+
+=head1 SYNOPSIS
+
+ use PXR::Utils; # exports functions listed below
+
+ my $hash_ref_to_config = &get_config($absolute_path_to_config);
+ my $hash_ref_to_config = &get_config();  # defaults to ./config.xml
+
+ my $node = get_reply($node);  # swaps to and from and sets 'type' to IQ_RESULT
+ my $new_node = get_reply($node, 'blank');  # makes and returns blank result
+ 
+ my $node = get_error($node, $text_error, $code_number); # add error and reply
+
+ my $user = get_user('nickperez@jabber.org'); # gets 'nickperez'
+ my $domain = get_host('nickperez@jabber.org'); # gets 'jabber.org'
+
+=head1 DESCRIPTION
+
+PXR::Utils provides some common use utilities for use with PXR Tools such as
+XML configuration files, make nodes replies, add errors for error replies, and
+gather things from jids.
+
+=head1 AUTHOR
+
+Copyright (c) 2003 Nicholas Perez. Released and distributed under the GPL.
+
+=cut
+

@@ -27,7 +27,7 @@ package PXR::Parser;
 use strict;
 use warnings;
 
-our $VERSION = '0.1';
+our $VERSION = '0.1.1';
 
 sub new
 {
@@ -264,3 +264,62 @@ sub entityCheck
 }
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+ PXR::Parser - Pure Perl SAX XML Push Parser
+
+=head1 SYNOPSIS
+
+ use PXR::Parser;
+
+ my $parser = PXR::Parser->new(
+                  'Handlers' => {
+                      'startDocument' => \&start_doc,
+                      'endDocument'   => \&end_doc,
+                      'startElement'  => \&start_element,
+                      'endElement'    => \&end_element,
+                      'characters'    => \&characters,
+                  }
+              );
+              
+ $parser->parse($data);
+
+ $parser->setHandlers('startDocument' => \&different_start);
+
+=head1 DESCRIPTION
+ 
+ A simple, fast, efficient pure perl sax xml parser.
+
+=head1 BUGS AND NOTES
+
+This Parser was blatantly ripped and modified from XML::Stream::Parser because
+it was the only pure perl parser simple and speedy enough to be included by
+default in various other things such as PXR or PoCo::Jabber. Just note that
+there is no recovering or detecting XML malformedness. So if you feed this
+little pet something non-tasty, you are in for a surprise (mainly memory
+leaking everywhere, and other things like gnawing on furniture). That is the
+trade off for its speed. In situtations where you B<know> you are not going to
+get malformed XML such as a connection to a jabber server (or other XML
+pushing entities) then this parser is ideal. Currently, the speed difference
+between this parser and XML::Parser::Expat are about 30 percent in favor of
+XML::Parser::Expat (which says alot of the speed of this pure perl 
+implementation).
+
+Thanks to Ryan Eatmon for writing and releasing this code. It has been a boon
+to those of us that really appreciate a simple small solution.
+
+=head1 AUTHOR
+
+ Copyright (C) 2003 Nicholas Perez
+ Copyright (C) 1998-1999 The Jabber Team http://jabber.org/
+ Original Author Ryan Eatmon in January of 2001
+ Modified for use in PXR by Nicholas Perez in June of 2003
+ Released and distributed under the LGPL.
+
+=cut
+
