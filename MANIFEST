@@ -1,4 +1,5 @@
 MANIFEST			This list of files
+LICENSE
 Makefile.PL
 PXR.pm
 PXR/NS.pm

@@ -10,6 +10,8 @@ use constant kids => 3;
 use constant tagparent => 4;
 use constant id => 5;
 
+our $VERSION = '0.1';
+
 my $id = 0;
 
 sub new() {

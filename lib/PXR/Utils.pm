@@ -8,10 +8,11 @@ use warnings;
 use IO::File;
 use POE::Filter::XML;
 use PXR::Node;
-use PXR::NS qw/ :SERVICE :IQ /;
+use PXR::NS qw/ :IQ /;
 
 require Exporter;
 
+our $VERSION = '0.1';
 our @ISA = qw/ Exporter /;
 our @EXPORT = qw/ &get_config &get_reply &get_error &get_user &get_host /;
 
@@ -19,7 +20,17 @@ my $hash;
 
 sub get_config()
 {
-	my $file = IO::File->new('./config.xml');
+	my $path = shift;
+	my $file;
+	
+	if(defined($path))
+	{
+		$file = IO::File->new($path);
+
+	} else {
+		
+		$file = IO::File->new('./config.xml');
+	}
 	my $filter = POE::Filter::XML->new(undef,undef);
 	my @lines = $file->getlines();
 	my $nodes = $filter->get(\@lines);
